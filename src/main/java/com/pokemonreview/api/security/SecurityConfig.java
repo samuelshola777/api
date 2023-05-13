@@ -9,8 +9,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSocketSecurity
 public class SecurityConfig {
 
-public SecurityFilterChain filterChain(HttpSecurity http){
-
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+            .cors().disable()
+            .authorizeHttpRequests()
 }
 
 }
