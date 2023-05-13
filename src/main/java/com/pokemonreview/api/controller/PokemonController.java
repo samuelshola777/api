@@ -2,14 +2,12 @@ package com.pokemonreview.api.controller;
 
 import com.pokemonreview.api.data.model.Pokemon;
 import com.pokemonreview.api.dto.request.PokemonRequest;
-import com.pokemonreview.api.dto.responce.PokemonResponse;
 import com.pokemonreview.api.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,15 +19,15 @@ private PokemonService pokemonService;
         this.pokemonService = pokemonService;
     }
 
-//@PostMapping("/pokemon/create")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ResponseEntity<PokemonRequest> createPokemon(@RequestBody PokemonRequest pokemonRequest) {
-//        return new ResponseEntity<>(pokemonService.createPokemon(pokemonRequest), HttpStatus.CREATED);
-//    }
+    @PostMapping("/pokemon/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<PokemonRequest> createPokemon(@RequestBody PokemonRequest pokemonRequest) {
+        return new ResponseEntity<>(pokemonService.createPokemon(pokemonRequest), HttpStatus.CREATED);
+    }
 
     @GetMapping("pokemon/{id}")
-    public Pokemon getPokemon(@PathVariable Long id) {
-        return new Pokemon(id, "squale", "water");
+    public ResponseEntity<Pokemon> getPokemon(@PathVariable Long id) {
+        return ResponseEntity.ok(pokemonService.getPokemonByI(id));
     }
 
     @PostMapping("pokemon/createh")
@@ -39,19 +37,24 @@ private PokemonService pokemonService;
         System.out.println(pokemon.getType());
         return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
     }
+    @GetMapping("getAll/pokemon")
+    public ResponseEntity<List<PokemonRequest>> getAllPokemon(@RequestParam(value = "pageNumber", defaultValue = "0",
+    required = false) int pageNumber,
+     @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize){
 
-@PutMapping("/pokemon/{id}update")
-    public ResponseEntity<Pokemon> updatePokemon(@RequestBody Pokemon pokemon, @PathVariable("id") int pokemonId){
-        System.out.println(pokemon.getName());
-        System.out.println(pokemon.getType());
-        return ResponseEntity.ok(pokemon);
+    return  new ResponseEntity<>(pokemonService.getAllPokemon( pageNumber,  pageSize), HttpStatus.OK);
+    }
+
+    @PutMapping("/pokemon/{id}update")
+    public ResponseEntity<PokemonRequest> updatePokemon(@RequestBody PokemonRequest pokemonRequest, @PathVariable long id){
+        return new ResponseEntity<>(pokemonService.updatePokemon(pokemonRequest, id), HttpStatus.OK);
 
 }
 
-@DeleteMapping("pokemon/{id}delete")
-    public ResponseEntity<String> deletePokemon(@PathVariable ("id") Long pokemonId){
-    System.out.println(pokemonId);
-    return ResponseEntity.ok("Pokemon deleted successfully");
+    @DeleteMapping("/pokemon/{id}delete")
+    public ResponseEntity<String> deletePokemon(@PathVariable ("id") long pokemonId){
+    pokemonService.deletePokemonById(pokemonId);
+   return new ResponseEntity<>("pokemon delete successfully boneshaker", HttpStatus.OK);
 }
 
 }
