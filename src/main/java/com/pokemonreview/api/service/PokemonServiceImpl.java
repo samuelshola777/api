@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @Service
@@ -88,7 +89,11 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
  public void updatePokemon(){
-     System.out.println("my namd ");
+     System.out.println("my name is samuel shola");
+ }
+
+ private void changePhone(){
+     Scanner
  }
     private Pokemon mapToEntity(PokemonRequest pokemonRequest) {
 
