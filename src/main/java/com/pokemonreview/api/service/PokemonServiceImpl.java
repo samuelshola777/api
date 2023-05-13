@@ -87,7 +87,9 @@ public class PokemonServiceImpl implements PokemonService {
       pokemonRepository.delete(deletePokemon);
     }
 
-
+ public void updatePokemon(){
+     System.out.println("my namd ");
+ }
     private Pokemon mapToEntity(PokemonRequest pokemonRequest) {
 
         Pokemon pokemon = new Pokemon();
