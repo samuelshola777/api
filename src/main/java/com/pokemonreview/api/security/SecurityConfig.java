@@ -13,6 +13,8 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
             .cors().disable()
             .authorizeHttpRequests()
+            .anyRequest().authenticated()
+
 }
 
 }
