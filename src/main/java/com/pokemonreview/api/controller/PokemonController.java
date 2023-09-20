@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 
-@RequestMapping("/api/")
+@RequestMapping("/api/auth/")
 public class PokemonController {
     @Autowired
 private  PokemonService pokemonService;
@@ -32,7 +32,7 @@ private  PokemonService pokemonService;
         return ResponseEntity.ok(pokemonService.getPokemonByI(id));
     }
 
-    @PostMapping("pokemon/createh")
+    @PostMapping("pokemon/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Pokemon> createPokemon(@RequestBody Pokemon pokemon ){
         System.out.println(pokemon.getName());
