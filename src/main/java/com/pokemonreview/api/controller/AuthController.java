@@ -5,6 +5,9 @@ import com.pokemonreview.api.data.model.UserEntity;
 import com.pokemonreview.api.data.repository.RoleRepository;
 import com.pokemonreview.api.data.repository.UserQRepository;
 import com.pokemonreview.api.dto.request.RegisterRequest;
+import com.pokemonreview.api.dto.responce.AuthResponseDTO;
+import com.pokemonreview.api.security.JWTAuthenticationFilter;
+import com.pokemonreview.api.security.JWTGenerator;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,13 +24,14 @@ import java.util.Collection;
 import java.util.Collections;
 @Service
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth/")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserQRepository userQRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JWTGenerator jwtGenerator;
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest){
@@ -51,10 +55,11 @@ public class AuthController {
         return "role register successfully";
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam("username") String username, @RequestParam("password") String password){
+    public ResponseEntity<AuthResponseDTO> login(@RequestParam("username") String username, @RequestParam("password") String password){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("sign in completed successfully",HttpStatus.ACCEPTED);
+        String token = jwtGenerator.generateToken(authentication);
+        return new ResponseEntity<>(new AuthResponseDTO(token),HttpStatus.ACCEPTED);
     }
 
 }

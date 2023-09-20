@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+
 @RequestMapping("/api/")
 public class PokemonController {
-private PokemonService pokemonService;
+    @Autowired
+private  PokemonService pokemonService;
     @Autowired
     public PokemonController(PokemonService pokemonService) {
         this.pokemonService = pokemonService;
     }
 
-    @PostMapping("/pokemon/create")
+    @PostMapping("pokemon/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PokemonRequest> createPokemon(@RequestBody PokemonRequest pokemonRequest) {
         return new ResponseEntity<>(pokemonService.createPokemon(pokemonRequest), HttpStatus.CREATED);
