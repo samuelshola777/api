@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
 @RequestMapping("/api/auth/")
 public class PokemonController {
     @Autowired
@@ -32,13 +31,13 @@ private  PokemonService pokemonService;
         return ResponseEntity.ok(pokemonService.getPokemonByI(id));
     }
 
-    @PostMapping("pokemon/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Pokemon> createPokemon(@RequestBody Pokemon pokemon ){
-        System.out.println(pokemon.getName());
-        System.out.println(pokemon.getType());
-        return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
-    }
+//    @PostMapping("pokemon/create")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public ResponseEntity<Pokemon> createPokemon(@RequestBody Pokemon pokemon ){
+//        System.out.println(pokemon.getName());
+//        System.out.println(pokemon.getType());
+//        return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
+//    }
     @GetMapping("getAll/pokemon")
     public ResponseEntity<List<PokemonRequest>> getAllPokemon(@RequestParam(value = "pageNumber", defaultValue = "0",
     required = false) int pageNumber,
